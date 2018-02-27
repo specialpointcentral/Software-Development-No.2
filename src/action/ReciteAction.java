@@ -220,7 +220,7 @@ public class ReciteAction {
 	 * @param day
 	 * @return Date
 	 */
-	public Date setDate(Date D, int day) {
+	public static Date setDate(Date D, int day) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(D); // 需要将date数据转移到Calender对象中操作
 		calendar.add(calendar.DATE, day);// 把日期往后增加n天.正数往后推,负数往前移动

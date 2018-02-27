@@ -21,6 +21,10 @@ import java.awt.event.ActionEvent;
 
 public class Detail extends JPanel {
 	JList<Card> list_card;
+	JButton btn_review;
+	JButton btn_study;
+	JLabel label_review;
+	JLabel label_study;
 
 	public Detail() {
 		setSize(950, 550);
@@ -37,24 +41,27 @@ public class Detail extends JPanel {
 		mainPanel.add(panel);
 		panel.setLayout(null);
 
-		JLabel label_study = new JLabel("\u6B64\u5361\u7247\u8FD8\u672A\u8FDB\u884C\u5B66\u4E60/\u91CD\u7F6E");
+		label_study = new JLabel("\u6B64\u5361\u7247\u8FD8\u672A\u8FDB\u884C\u5B66\u4E60/\u91CD\u7F6E");
 		label_study.setFont(new Font("微软雅黑", Font.PLAIN, 15));
 		label_study.setBounds(14, 32, 243, 29);
 		panel.add(label_study);
 
-		JButton btn_study = new JButton("\u73B0\u5728\u5F00\u59CB\u5B66\u4E60");
+		btn_study = new JButton("\u73B0\u5728\u5F00\u59CB\u5B66\u4E60");
 		btn_study.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Card C = list_card.getSelectedValue();
-				if (C == null)
+				if (C == null) {
 					JOptionPane.showMessageDialog(null, "未选中记忆卡片！", "提示", JOptionPane.INFORMATION_MESSAGE);
-				else
+				} else
 
 				if (C.getStartorNot()) {
 					// 已开始学习，动作为重置
 					if (JOptionPane.showConfirmDialog(null, "是否重置卡片，所有学习内容将会被初始化？", "警告", JOptionPane.WARNING_MESSAGE,
 							JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION)
-						DetailAction.act_reset(C);
+						if (DetailAction.act_reset(C)) {// 成功重置
+							list_card.clearSelection();// 清除列表选择
+							JOptionPane.showMessageDialog(null, "卡片重置成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
+						}
 				} else {
 					// 未开始学习，动作为开始学习
 					DetailAction.act_start(C);
@@ -66,12 +73,12 @@ public class Detail extends JPanel {
 		btn_study.setBounds(126, 74, 131, 38);
 		panel.add(btn_study);
 
-		JLabel label_review = new JLabel("\u4E0B\u6B21\u590D\u4E60\u65F6\u95F4");
+		label_review = new JLabel("\u4E0B\u6B21\u590D\u4E60\u65F6\u95F4");
 		label_review.setFont(new Font("微软雅黑", Font.PLAIN, 15));
 		label_review.setBounds(14, 134, 243, 29);
 		panel.add(label_review);
 
-		JButton btn_review = new JButton("\u6682\u65F6\u4E0D\u7528\u590D\u4E60");
+		btn_review = new JButton("\u6682\u65F6\u4E0D\u7528\u590D\u4E60");
 		btn_review.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Card C = list_card.getSelectedValue();
@@ -113,43 +120,48 @@ public class Detail extends JPanel {
 				if (!e.getValueIsAdjusting() && list_card.getSelectedValue() != null) {
 					DetailAction.showRecord(list_content, list_card.getSelectedValue());
 					txt_info.setText(DetailAction.getDetailInfo(list_card.getSelectedValue()));
-					//开始学习了吗？
-					if(list_card.getSelectedValue().getStartorNot()) {
-						//开始
+					// 开始学习了吗？
+					if (list_card.getSelectedValue().getStartorNot()) {
+						// 开始
 						label_study.setText("将此卡片内容重置");
 						btn_study.setText("重置此卡片");
 						btn_study.setEnabled(true);
-					}else {
-						//未开始
+					} else {
+						// 未开始
 						label_study.setText("此卡片现在还未开始学习");
 						btn_study.setText("现在开始学习");
 						btn_study.setEnabled(true);
 					}
-					//是否有复习
-					ArrayList<Object> list=DetailAction.getNextReviewInfo((ArrayList<Record>)list_card.getSelectedValue().getRecordList());
-					SimpleDateFormat Fmt=new SimpleDateFormat("yyyy/MM/dd");
-					if(Fmt.format(list.get(0)).equals(Fmt.format(new Date()))) {
-						//今天有复习任务
+					// 是否有复习
+					ArrayList<Object> list = DetailAction
+							.getNextReviewInfo((ArrayList<Record>) list_card.getSelectedValue().getRecordList());
+					SimpleDateFormat Fmt = new SimpleDateFormat("yyyy/MM/dd");
+					if (list.get(0).equals(Fmt.format(new Date()))) {
+						// 今天有复习任务
 						btn_review.setEnabled(true);
 						btn_review.setText("开始复习");
 						label_review.setText("今天有复习任务");
-					}else {
+					} else {
 						btn_review.setEnabled(false);
 						btn_review.setText("没有复习任务");
-						label_review.setText("今天没有复习任务，可以学习一下别的卡片哟");
+						label_review.setText("此卡片今天没有复习任务");
 					}
 				} else {
 					DetailAction.showRecord(list_content, null);
 					txt_info.setText("此卡片的详细数据：\n您还未选中卡片！");
+					label_study.setText("现在还未开始学习");
+					btn_review.setEnabled(false);
+					label_review.setText("现在没有复习计划");
+					btn_study.setEnabled(false);
 				}
 			}
 		});
 		scrollPane_1.setViewportView(list_card);
-		//初开页面进行初始化
+		// 初开页面进行初始化
 		label_study.setText("现在还未开始学习");
 		btn_review.setEnabled(false);
 		btn_study.setEnabled(false);
-		new BeginUI(list_card,txt_info);
+		new BeginUI(list_card, txt_info);
 	}
 }
 
@@ -162,15 +174,16 @@ public class Detail extends JPanel {
 class BeginUI extends Thread {
 	JList<Card> C;
 	JTextArea txt_info;
-	public BeginUI(JList<Card> C,JTextArea txt_info) {
+
+	public BeginUI(JList<Card> C, JTextArea txt_info) {
 		this.C = C;
-		this.txt_info=txt_info;
+		this.txt_info = txt_info;
 		this.start();
 	}
 
 	public void run() {
 		txt_info.setText("此卡片的详细数据：\n您还未选中卡片！");
-		
+
 		DetailAction.showCardList(C);
 	}
 }

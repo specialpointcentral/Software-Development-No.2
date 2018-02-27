@@ -3,9 +3,11 @@ package action;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Iterator;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
+
 import classes.Card;
 import classes.Record;
 
@@ -58,10 +60,18 @@ public class DetailAction {
 	 * @return ArrayList<Card>
 	 */
 	public static ArrayList<Card> getCardList() {
-		// TODO
-		ArrayList<Card> test=new ArrayList<Card>();
-		Card C=new Card(1, "中文(zh-cn)", "测试");
+		// TODO this is only a test
+		ArrayList<Card> test = new ArrayList<Card>();
+		Card C = new Card(1, "中文(zh-cn)", "测试");
 		C.addRecord(new Record("Remember", "note"));
+		C.start=true;
+		Record record=new Record("remember2", "note");
+		record.nextTime=new Date();
+		C.addRecord(record);
+		Record record2=new Record("remember3", "note");
+//		record2.nextTime=ReciteAction.setDate(new Date(),2);
+		record2.nextTime=new Date();
+		C.addRecord(record2);
 		test.add(C);
 		return test;
 	}
@@ -93,20 +103,27 @@ public class DetailAction {
 	 * 
 	 * @param R
 	 *            ArrayList<Record>
-	 * @return the next review time and the record number,index 0 is Time(String),
+	 * @return the next review time and the record number,index 0 is Time(String) format is yyyy/MM/dd,
 	 *         index 1 is number(int)
 	 */
 	public static ArrayList<Object> getNextReviewInfo(ArrayList<Record> R) {
 		// TODO
 		R.sort(new sortRule());
-		SimpleDateFormat Fmt=new SimpleDateFormat("yyyy/MM/dd");
+		SimpleDateFormat Fmt = new SimpleDateFormat("yyyy/MM/dd");
 		ArrayList<Object> L = new ArrayList<Object>();
-		L.add(0, Fmt.format(R.get(0).nextTime));// 复习时间
-		int num=0;
-		for(int i=0;i<R.size();i++) {
-			if(Fmt.format(R.get(0).nextTime).equals(Fmt.format(R.get(i).nextTime)))
+		if (R.get(0).nextTime == null) {
+			//没有复习时间，即没开始学习
+			L.add(0, "未定义");// 复习时间
+			L.add(1, 0);// 复习条数
+			return L;
+		} else
+			L.add(0, Fmt.format(R.get(0).nextTime));// 复习时间
+		int num = 0;
+		for (int i = 0; i < R.size(); i++) {
+			if (R.get(i).nextTime!=null&&Fmt.format(R.get(0).nextTime).equals(Fmt.format(R.get(i).nextTime)))
 				num++;
-			else break;
+			else
+				break;
 		}
 		L.add(1, num);// 复习条数
 		return L;
@@ -118,7 +135,7 @@ public class DetailAction {
 	 * @param C
 	 *            Card
 	 */
-	public static void act_reset(Card C) {
+	public static boolean act_reset(Card C) {
 		// set card is not study
 		C.start = false;
 		// then set all record
@@ -134,6 +151,7 @@ public class DetailAction {
 			temp.thisForgetTimes = 0;
 			temp.thisTimes = 3;
 		}
+		return true;
 	}
 
 	/**
@@ -162,6 +180,11 @@ public class DetailAction {
 
 class sortRule implements Comparator<Record> {
 	public int compare(Record r1, Record r2) {
-		return r1.nextTime.compareTo(r2.nextTime);
+		//判断null 防止有些单词没有学习
+		if(r1.nextTime!=null&&r2.nextTime==null) return -1;
+		if(r1.nextTime==null&&r2.nextTime!=null) return 1;
+		if(r1.nextTime==null&&r2.nextTime==null) return 0;
+		if(r1.nextTime.before(r2.nextTime)) return -1;
+		else return 1;
 	}
 }
