@@ -11,6 +11,7 @@ import javax.swing.JList;
 import classes.Card;
 import classes.Record;
 import main.Main;
+import ui.Recite;
 
 /**
  * this part is used to help the Detail UI, all function is in here
@@ -150,6 +151,9 @@ public class DetailAction {
 	 */
 	public static void act_start(Card C) {
 		// TODO
+		Recite fr=new Recite(C);
+		fr.setVisible(true);
+		fr.setLocationRelativeTo(null);
 
 	}
 
@@ -161,6 +165,9 @@ public class DetailAction {
 	 */
 	public static void act_review(Card C) {
 		// TODO
+		Recite fr=new Recite(C);
+		fr.setVisible(true);
+		fr.setLocationRelativeTo(null);
 
 	}
 

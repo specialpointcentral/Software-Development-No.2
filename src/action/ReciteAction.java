@@ -13,10 +13,10 @@ import classes.*;
  * this part is used to help the Recite UI, all function is in here
  */
 public class ReciteAction {
-	public Card C;
-	public Queue<Record> firstRecite;// 第一次记忆的队列
-	public Queue<Record> review;// 复习队列（10个左右）
-	public Queue<Record> remanent;// 总剩余队列
+	private Card C;
+	private Queue<Record> firstRecite;// 第一次记忆的队列
+	private Queue<Record> review;// 复习队列（8个左右）
+	private Queue<Record> remanent;// 总剩余队列
 
 
 	/**
@@ -31,6 +31,8 @@ public class ReciteAction {
 		review = new LinkedList<Record>();
 		remanent = new LinkedList<Record>();
 		//TODO
+		setQueue();
+		
 	}
 
 	/**
@@ -164,8 +166,9 @@ public class ReciteAction {
 	 */
 	public boolean addReviewQueue() {
 		// 边界检测 判断队列是否满 8个为满
-		if (reviewQueueFull())
+		if (reviewQueueFull()) {
 			return false;
+		}
 		while (!remanent.isEmpty() && !reviewQueueFull()) {
 			Record temp = remanent.poll();
 			if (temp != null)
@@ -234,16 +237,15 @@ public class ReciteAction {
 			Record temp=it.next();
 			if(temp.seeTimes==0) {
 				firstRecite.offer(temp);
-				R.remove(temp);
 			}
 		}
 		//再填总队列，按照模糊次数+不知道次数排序来
-		sort(R,0,R.size());//快速排序
+		sort(R,0,R.size()-1);//快速排序
 		for(Iterator<Record>it=R.iterator();it.hasNext();) {
 			Record temp=it.next();			
 			remanent.offer(temp);
-			R.remove(temp);
 		}
+		R=null;
 	}
 	
 	public static void sort(LinkedList<Record> R,int start ,int end){

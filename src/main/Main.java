@@ -1,4 +1,6 @@
 package main;
+import javax.swing.JFrame;
+
 import classes.CardList;
 import ui.MainUI;
 public class Main {
@@ -7,8 +9,9 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Clist=new CardList();
-		new MainUI().setVisible(true);
-		
+		JFrame f=new MainUI();
+		f.setVisible(true);
+		f.setLocationRelativeTo(null);
 
 	}
 
