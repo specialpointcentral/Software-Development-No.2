@@ -117,7 +117,7 @@ public class Detail extends JPanel {
 
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				if (!e.getValueIsAdjusting() && list_card.getSelectedValue() != null) {
+				if (!e.getValueIsAdjusting() && list_card.getSelectedValue() != null) {//确保不是空值并且值已经改变，减少读取次数
 					DetailAction.showRecord(list_content, list_card.getSelectedValue());
 					txt_info.setText(DetailAction.getDetailInfo(list_card.getSelectedValue()));
 					// 开始学习了吗？
@@ -146,7 +146,7 @@ public class Detail extends JPanel {
 						btn_review.setText("没有复习任务");
 						label_review.setText("此卡片今天没有复习任务");
 					}
-				} else {
+				} else if(list_card.getSelectedValue() == null) {//空值
 					DetailAction.showRecord(list_content, null);
 					txt_info.setText("此卡片的详细数据：\n您还未选中卡片！");
 					label_study.setText("现在还未开始学习");
@@ -161,7 +161,7 @@ public class Detail extends JPanel {
 		label_study.setText("现在还未开始学习");
 		btn_review.setEnabled(false);
 		btn_study.setEnabled(false);
-		new BeginUI(list_card, txt_info);
+		new DetailBeginUI(list_card, txt_info);
 	}
 }
 
@@ -171,11 +171,11 @@ public class Detail extends JPanel {
  * @author huqi1
  *
  */
-class BeginUI extends Thread {
+class DetailBeginUI extends Thread {
 	JList<Card> C;
 	JTextArea txt_info;
 
-	public BeginUI(JList<Card> C, JTextArea txt_info) {
+	public DetailBeginUI(JList<Card> C, JTextArea txt_info) {
 		this.C = C;
 		this.txt_info = txt_info;
 		this.start();

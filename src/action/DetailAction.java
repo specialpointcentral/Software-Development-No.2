@@ -10,6 +10,7 @@ import javax.swing.JList;
 
 import classes.Card;
 import classes.Record;
+import main.Main;
 
 /**
  * this part is used to help the Detail UI, all function is in here
@@ -60,20 +61,7 @@ public class DetailAction {
 	 * @return ArrayList<Card>
 	 */
 	public static ArrayList<Card> getCardList() {
-		// TODO this is only a test
-		ArrayList<Card> test = new ArrayList<Card>();
-		Card C = new Card(1, "中文(zh-cn)", "测试");
-		C.addRecord(new Record("Remember", "note"));
-		C.start=true;
-		Record record=new Record("remember2", "note");
-		record.nextTime=new Date();
-		C.addRecord(record);
-		Record record2=new Record("remember3", "note");
-//		record2.nextTime=ReciteAction.setDate(new Date(),2);
-		record2.nextTime=new Date();
-		C.addRecord(record2);
-		test.add(C);
-		return test;
+		return Main.Clist.getList();
 	}
 
 	/**
@@ -180,7 +168,7 @@ public class DetailAction {
 
 class sortRule implements Comparator<Record> {
 	public int compare(Record r1, Record r2) {
-		//判断null 防止有些单词没有学习
+		//判断null 防止有些单词没有学习，将null放在后面
 		if(r1.nextTime!=null&&r2.nextTime==null) return -1;
 		if(r1.nextTime==null&&r2.nextTime!=null) return 1;
 		if(r1.nextTime==null&&r2.nextTime==null) return 0;

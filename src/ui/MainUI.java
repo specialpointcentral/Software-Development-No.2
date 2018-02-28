@@ -3,6 +3,8 @@ package ui;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.JPanel;
 import java.awt.Font;
 
@@ -27,5 +29,17 @@ public class MainUI extends JFrame {
 		
 		JPanel panel_analyze = new Analyze();
 		tabbedPane.addTab("Í³¼Æ·ÖÎö", null, panel_analyze, null);
+		
+		tabbedPane.addChangeListener(new ChangeListener() {
+			
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				// TODO need rewrite
+				
+				
+			}
+		});
+		
+		
 	}
 }

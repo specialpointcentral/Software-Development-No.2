@@ -34,23 +34,26 @@ public class InsertAction {
 	}
 	/**
 	 * use to open the card modify dialog
+	 * @param Clist JList<Card> update the UI
 	 */
 	public static void act_insertCard(JList<Card> Clist) {
-		DefaultListModel<Card> Cmodel=(DefaultListModel<Card>) Clist.getModel();
 		//TODO
 		
 	}
 	/**
 	 * use to open the record modify dialog
+	 * @param Clist JList<Card> update the UI
 	 */
 	public static void act_insertRecord(JList<Card> Clist) {
-		DefaultListModel<Card> Cmodel=(DefaultListModel<Card>) Clist.getModel();
 		//TODO
 		
 	}
-	
+	/**
+	 * use to modify the card list
+	 * @param C Card which need modify
+	 * @param Clist JList<Card> update the UI
+	 */
 	public static void act_modify(Card C,JList<Card> Clist) {
-		DefaultListModel<Card> Cmodel=(DefaultListModel<Card>) Clist.getModel();
 		//TODO
 		
 	}

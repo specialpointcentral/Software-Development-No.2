@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 public class Card {
-	public int type;// 类型
+	public int type;// 类型 1-单词 2-语句 3-其他
 	public String lang; // 语言
 	public String card;// 卡片名
 	public boolean start;// 开始记忆？

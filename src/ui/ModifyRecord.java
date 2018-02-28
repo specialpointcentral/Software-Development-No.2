@@ -15,6 +15,7 @@ import java.awt.SystemColor;
 
 public class ModifyRecord extends JFrame {
 	public ModifyRecord() {
+		setResizable(false);
 		setSize(466,424);
 		getContentPane().setLayout(null);
 		
@@ -30,7 +31,7 @@ public class ModifyRecord extends JFrame {
 		
 		JButton btn_confirm = new JButton("\u786E\u8BA4");
 		btn_confirm.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 17));
-		btn_confirm.setBounds(321, 337, 113, 27);
+		btn_confirm.setBounds(321, 337, 113, 39);
 		getContentPane().add(btn_confirm);
 		
 		JTextArea text_content = new JTextArea();
