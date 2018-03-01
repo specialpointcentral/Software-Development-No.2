@@ -3,6 +3,7 @@ package ui;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import java.awt.Font;
 import javax.swing.JTextField;
@@ -11,6 +12,7 @@ import classes.Card;
 import main.Main;
 
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JButton;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
@@ -19,15 +21,20 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.event.ActionEvent;
 
-public class ModifyCard extends JFrame {
+public class ModifyCard extends JDialog {
 	private JTextField text_cardName;
 	private JComboBox<String> box_type;
 	private JComboBox<String> box_lang;
 	private Card C;// Card
 	private boolean modify = false;// 是否为修改模式
-
-	public ModifyCard() {
-		this.setTitle("填加卡片");
+	private Insert frms;//需要更新信息的窗体
+	private JDialog thisFrame;//本窗体
+	public ModifyCard(JPanel frm,JFrame jfrm) {
+		super(jfrm,"",true);
+		setLocationRelativeTo(frm);
+		frms=(Insert)frm;
+		thisFrame=this;
+		setTitle("填加卡片");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setResizable(false);
 		setSize(427, 255);
@@ -78,24 +85,26 @@ public class ModifyCard extends JFrame {
 
 				if (text_cardName.getText().trim().equals("")) {
 					// 卡片名称为空值
-					JOptionPane.showMessageDialog(null, "卡片名称不能为空！", "提示", JOptionPane.INFORMATION_MESSAGE);
-				} else if (box_type.getSelectedIndex() < 2) {
+					JOptionPane.showMessageDialog(thisFrame, "卡片名称不能为空！", "提示", JOptionPane.INFORMATION_MESSAGE);
+				} else if (box_type.getSelectedIndex() < 3) {
 					if (modify) {
 						C.card = text_cardName.getText().trim();
 						C.lang = (String) box_lang.getSelectedItem();
 						C.type = box_type.getSelectedIndex() + 1;
-						JOptionPane.showMessageDialog(null, "成功保存！", "提示", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(thisFrame, "成功保存！", "提示", JOptionPane.INFORMATION_MESSAGE);
+						frms.refreshUI();
 						dispose();
 					} else {
 						C = new Card(box_type.getSelectedIndex() + 1, (String) box_lang.getSelectedItem(),
 								text_cardName.getText().trim());
 						if(Main.Clist.addCard(C)) {
-							JOptionPane.showMessageDialog(null, "成功保存！", "提示", JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(thisFrame, "成功保存！", "提示", JOptionPane.INFORMATION_MESSAGE);
+							frms.refreshUI();
 							dispose();
-						}else JOptionPane.showMessageDialog(null, "保存失败！", "提示", JOptionPane.WARNING_MESSAGE);
+						}else JOptionPane.showMessageDialog(thisFrame, "保存失败！", "提示", JOptionPane.WARNING_MESSAGE);
 						
 					}
-				}
+				}else JOptionPane.showMessageDialog(thisFrame, "有误", "提示", JOptionPane.INFORMATION_MESSAGE);
 
 			}
 		});
@@ -107,9 +116,12 @@ public class ModifyCard extends JFrame {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				//关闭窗口前提示
-				if (JOptionPane.showConfirmDialog(null, "是否关闭对话框，关闭后内容将不会保存？", "警告", JOptionPane.WARNING_MESSAGE,
-						JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION)
+				if (JOptionPane.showConfirmDialog(thisFrame, "是否关闭对话框，关闭后内容将不会保存？", "警告", JOptionPane.WARNING_MESSAGE,
+						JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+					frms.refreshUI();
 					dispose();
+				}
+					
 				else return;
 			}
 			

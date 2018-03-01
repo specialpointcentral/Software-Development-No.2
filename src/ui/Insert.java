@@ -14,14 +14,23 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import action.DetailAction;
 import action.InsertAction;
 import classes.Card;
+import main.Main;
+
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyVetoException;
+import java.beans.VetoableChangeListener;
 import java.awt.event.ActionEvent;
 
 public class Insert extends JPanel {
@@ -31,8 +40,10 @@ public class Insert extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JTable table_content;
 	private JList<Card> list_card;
+	private Insert thisPanel;// 本窗体
 
 	public Insert() {
+		thisPanel = this;
 		setSize(950, 550);
 		setLayout(new BorderLayout(0, 0));
 
@@ -47,10 +58,9 @@ public class Insert extends JPanel {
 					// 未选择卡片
 					JOptionPane.showMessageDialog(null, "未选择要插入的卡片！", "提示", JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					ModifyRecord fr = new ModifyRecord();
+					ModifyRecord fr = new ModifyRecord(thisPanel, Main.f);
 					fr.setValue(list_card.getSelectedValue());
 					fr.setVisible(true);
-					fr.setLocationRelativeTo(null);
 				}
 			}
 		});
@@ -61,9 +71,8 @@ public class Insert extends JPanel {
 		JButton button_inscard = new JButton("\u63D2\u5165\u5361\u7247");
 		button_inscard.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ModifyCard fr = new ModifyCard();
+				ModifyCard fr = new ModifyCard(thisPanel, Main.f);
 				fr.setVisible(true);
-				fr.setLocationRelativeTo(null);
 			}
 		});
 		button_inscard.setFont(new Font("微软雅黑", Font.PLAIN, 16));
@@ -84,10 +93,9 @@ public class Insert extends JPanel {
 					// 有选中
 					if (e.getClickCount() == 2) {
 						// 双击
-						ModifyCard fr = new ModifyCard();
+						ModifyCard fr = new ModifyCard(thisPanel, Main.f);
 						fr.setValue(list_card.getSelectedValue());
 						fr.setVisible(true);
-						fr.setLocationRelativeTo(null);
 					}
 				}
 			}
@@ -96,7 +104,7 @@ public class Insert extends JPanel {
 
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				if (!e.getValueIsAdjusting() && list_card.getSelectedValue() != null) {
+				if (!e.getValueIsAdjusting()) {
 					InsertAction.showTable(list_card.getSelectedValue(), table_content);
 				}
 			}
@@ -111,22 +119,24 @@ public class Insert extends JPanel {
 		table_content.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table_content.setModel(new DefaultTableModel(new Object[][] { { null, null }, },
 				new String[] { "\u8BB0\u5FC6\u5185\u5BB9", "\u63D0\u793A\u5185\u5BB9" }) {
-
 			private static final long serialVersionUID = 1L;
-			Class[] columnTypes = new Class[] { String.class, String.class };
-
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-
-			boolean[] columnEditables = new boolean[] { false, false };
 
 			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
+				return false;
 			}
 		});
+
 		scrollPane_1.setViewportView(table_content);
 		new InsertBeginUI(list_card);
+	}
+
+	/**
+	 * use to refresh UI
+	 */
+	public void refreshUI() {
+		list_card.updateUI();
+		table_content.updateUI();
+		list_card.clearSelection();
 	}
 
 }

@@ -139,6 +139,7 @@ public class DetailAction {
 			temp.seeTimes = 0;
 			temp.thisForgetTimes = 0;
 			temp.thisTimes = 3;
+			temp.isReciteOver=false;
 		}
 		return true;
 	}
@@ -151,6 +152,7 @@ public class DetailAction {
 	 */
 	public static void act_start(Card C) {
 		// TODO
+		C.start=true;//设置卡片开始学习
 		Recite fr=new Recite(C);
 		fr.setVisible(true);
 		fr.setLocationRelativeTo(null);

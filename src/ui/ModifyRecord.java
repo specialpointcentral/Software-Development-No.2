@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 import javax.swing.JPanel;
@@ -23,12 +24,17 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 
-public class ModifyRecord extends JFrame {
+public class ModifyRecord extends JDialog {
 	private JTextArea text_content;
 	private JTextArea text_note;
 	private Card C;
-
-	public ModifyRecord() {
+	private Insert frms;// 需要更新信息的窗体
+	private JDialog thisFrame;//本窗体
+	public ModifyRecord(JPanel frm,JFrame jfrm) {
+		super(jfrm,"",true);
+		setLocationRelativeTo(frm);
+		frms = (Insert) frm;
+		thisFrame=this;
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setResizable(false);
 		setSize(466, 388);
@@ -50,10 +56,11 @@ public class ModifyRecord extends JFrame {
 				// 边界检测
 				if (text_content.getText().trim().equals("") || text_note.getText().trim().equals("")) {
 					// 结果空，不通过
-					JOptionPane.showMessageDialog(null, "记忆内容和提示内容不能为空！", "提示", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(thisFrame, "记忆内容和提示内容不能为空！", "提示", JOptionPane.INFORMATION_MESSAGE);
 				} else {
 					C.addRecord(new Record(text_content.getText().trim(), text_note.getText().trim()));
-					JOptionPane.showMessageDialog(null, "插入成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(thisFrame, "插入成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
+					frms.refreshUI();
 					dispose();
 				}
 			}
@@ -90,10 +97,11 @@ public class ModifyRecord extends JFrame {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				// 关闭窗口前提示
-				if (JOptionPane.showConfirmDialog(null, "是否关闭对话框，关闭后内容将不会保存？", "警告", JOptionPane.WARNING_MESSAGE,
-						JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION)
+				if (JOptionPane.showConfirmDialog(thisFrame, "是否关闭对话框，关闭后内容将不会保存？", "警告", JOptionPane.WARNING_MESSAGE,
+						JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+					frms.refreshUI();
 					dispose();
-				else
+				}else
 					return;
 			}
 

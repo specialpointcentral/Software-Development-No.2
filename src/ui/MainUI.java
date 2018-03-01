@@ -34,8 +34,15 @@ public class MainUI extends JFrame {
 			
 			@Override
 			public void stateChanged(ChangeEvent arg0) {
-				// TODO need rewrite
-				
+				// refresh the UI
+				Object source=tabbedPane.getSelectedComponent();
+				if(source instanceof Detail) {
+					((Detail) source).refreshUI();
+				}else if(source instanceof Insert) {
+					((Insert) source).refreshUI();
+				}else if(source instanceof Analyze) {
+					((Analyze) source).refreshUI();
+				}
 				
 			}
 		});
