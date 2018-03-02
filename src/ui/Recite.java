@@ -96,6 +96,7 @@ public class Recite extends JFrame {
 						// 回答正确
 						actionClass.act_know(data.record);
 						text_input.setForeground(Color.GREEN);
+						text_input.setEditable(false);// 输入框不可编辑
 						// 禁用按钮
 						btn_know.setEnabled(false);
 						btn_donnotKnow.setEnabled(false);
@@ -108,6 +109,7 @@ public class Recite extends JFrame {
 
 						label_info.setText("正确答案应该是：");
 						text_input.setText(data.rightAsw);
+						text_input.setEditable(false);// 输入框不可编辑
 						// 禁用按钮
 						btn_know.setEnabled(false);
 						btn_donnotKnow.setEnabled(false);
@@ -131,6 +133,7 @@ public class Recite extends JFrame {
 					label_info.setText("记忆内容如下：");
 					text_input.setText(data.record.remember);
 				}
+				text_input.setEditable(false);// 输入框不可编辑
 				// 禁用按钮
 				btn_know.setEnabled(false);
 				btn_donnotKnow.setEnabled(false);
@@ -156,6 +159,7 @@ public class Recite extends JFrame {
 					text_input.setText(data.record.remember);
 				}
 				// 禁用按钮
+				text_input.setEditable(false);// 输入框不可编辑
 				btn_know.setEnabled(false);
 				btn_donnotKnow.setEnabled(false);
 				btn_maybe.setEnabled(false);
@@ -208,6 +212,7 @@ public class Recite extends JFrame {
 		data = actionClass.getReciteData();
 		// 恢复按钮和输入框状态
 		text_input.setForeground(Color.black);
+		text_input.setEditable(true);
 		btn_know.setEnabled(true);
 		btn_donnotKnow.setEnabled(true);
 		btn_maybe.setEnabled(true);

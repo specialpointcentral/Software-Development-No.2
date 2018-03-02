@@ -57,6 +57,7 @@ public class Analyze extends JPanel {
 		scrollPane_1.setViewportView(table_all);
 
 		JTextArea text_detail = new JTextArea();
+		text_detail.setEditable(false);
 		text_detail.setBounds(639, 13, 297, 524);
 		panel.add(text_detail);
 		DetailAction.showCardList(list_card);
@@ -70,5 +71,6 @@ public class Analyze extends JPanel {
 		list_card.updateUI();
 		table_all.updateUI();
 		list_card.clearSelection();
+		DetailAction.showCardList(list_card);
 	}
 }

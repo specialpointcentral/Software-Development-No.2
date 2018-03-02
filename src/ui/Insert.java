@@ -32,6 +32,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import java.awt.Color;
 
 public class Insert extends JPanel {
 	/**
@@ -80,7 +82,7 @@ public class Insert extends JPanel {
 		mainPanel.add(button_inscard);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(14, 23, 273, 467);
+		scrollPane.setBounds(14, 13, 273, 477);
 		mainPanel.add(scrollPane);
 
 		list_card = new JList<Card>();
@@ -111,7 +113,7 @@ public class Insert extends JPanel {
 		});
 
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(301, 23, 635, 467);
+		scrollPane_1.setBounds(301, 13, 635, 477);
 		mainPanel.add(scrollPane_1);
 
 		table_content = new JTable();
@@ -128,6 +130,12 @@ public class Insert extends JPanel {
 
 		scrollPane_1.setViewportView(table_content);
 		new InsertBeginUI(list_card);
+		
+		JLabel lblNewLabel = new JLabel("\u53EF\u4EE5\u901A\u8FC7\u53CC\u51FB\u76F8\u5E94\u7684\u5185\u5BB9\u66F4\u6539\u5361\u7247\u4FE1\u606F");
+		lblNewLabel.setForeground(Color.GRAY);
+		lblNewLabel.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 15));
+		lblNewLabel.setBounds(14, 503, 263, 18);
+		mainPanel.add(lblNewLabel);
 	}
 
 	/**
@@ -137,8 +145,8 @@ public class Insert extends JPanel {
 		list_card.updateUI();
 		table_content.updateUI();
 		list_card.clearSelection();
+		DetailAction.showCardList(list_card);
 	}
-
 }
 
 class InsertBeginUI extends Thread {

@@ -39,13 +39,13 @@ public class Detail extends JPanel {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(new LineBorder(new Color(200, 200, 200)), " \u8BB0\u5FC6\u4E0E\u590D\u4E60 ",
 				TitledBorder.LEADING, TitledBorder.TOP, new Font("微软雅黑", Font.PLAIN, 15), new Color(0, 0, 0)));
-		panel.setBounds(665, 33, 271, 233);
+		panel.setBounds(665, 13, 271, 252);
 		mainPanel.add(panel);
 		panel.setLayout(null);
 
 		label_study = new JLabel("\u6B64\u5361\u7247\u8FD8\u672A\u8FDB\u884C\u5B66\u4E60/\u91CD\u7F6E");
 		label_study.setFont(new Font("微软雅黑", Font.PLAIN, 15));
-		label_study.setBounds(14, 32, 243, 29);
+		label_study.setBounds(14, 36, 243, 29);
 		panel.add(label_study);
 
 		btn_study = new JButton("\u73B0\u5728\u5F00\u59CB\u5B66\u4E60");
@@ -71,12 +71,12 @@ public class Detail extends JPanel {
 			}
 		});
 		btn_study.setFont(new Font("微软雅黑", Font.PLAIN, 15));
-		btn_study.setBounds(109, 74, 148, 38);
+		btn_study.setBounds(109, 78, 148, 38);
 		panel.add(btn_study);
 
 		label_review = new JLabel("\u4E0B\u6B21\u590D\u4E60\u65F6\u95F4");
 		label_review.setFont(new Font("微软雅黑", Font.PLAIN, 15));
-		label_review.setBounds(14, 134, 243, 29);
+		label_review.setBounds(14, 146, 243, 29);
 		panel.add(label_review);
 
 		btn_review = new JButton("\u6682\u65F6\u4E0D\u7528\u590D\u4E60");
@@ -93,7 +93,7 @@ public class Detail extends JPanel {
 			}
 		});
 		btn_review.setFont(new Font("微软雅黑", Font.PLAIN, 15));
-		btn_review.setBounds(109, 176, 148, 38);
+		btn_review.setBounds(109, 188, 148, 38);
 		panel.add(btn_review);
 
 		txt_info = new JTextArea();
@@ -105,14 +105,14 @@ public class Detail extends JPanel {
 		mainPanel.add(txt_info);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(277, 33, 374, 504);
+		scrollPane.setBounds(277, 13, 374, 524);
 		mainPanel.add(scrollPane);
 
 		list_content = new JList<Record>();
 		scrollPane.setViewportView(list_content);
 
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(14, 32, 249, 505);
+		scrollPane_1.setBounds(14, 13, 249, 524);
 		mainPanel.add(scrollPane_1);
 
 		list_card = new JList<Card>();
@@ -124,6 +124,13 @@ public class Detail extends JPanel {
 				if (!e.getValueIsAdjusting() && list_card.getSelectedValue() != null) {// 确保不是空值并且值已经改变，减少读取次数
 					DetailAction.showRecord(list_content, list_card.getSelectedValue());
 					txt_info.setText(DetailAction.getDetailInfo(list_card.getSelectedValue()));
+					//先判断卡片内容是否为空
+					if(list_card.getSelectedValue().records.size()==0) {
+						//空，按钮发生相应变化
+						label_study.setText("此卡片还没有任何记忆内容");
+						btn_study.setText("现在开始学习");
+						btn_study.setEnabled(false);
+					}else
 					// 开始学习了吗？
 					if (list_card.getSelectedValue().getStartorNot() && !list_card.getSelectedValue().getAllisOver()) {
 						// 开始，并且没有学完

@@ -48,8 +48,10 @@ public class DetailAction {
 			Lmodel.clear();
 		} else {
 			Lmodel.clear();
-			ArrayList<Record> cards = C.getRecordList();
-			for (Iterator<Record> it = cards.iterator(); it.hasNext();) {
+			ArrayList<Record> records = C.getRecordList();
+			if(records.size()==0) R.setToolTipText("没有数据");
+			else R.setToolTipText("所有记忆内容记录");
+			for (Iterator<Record> it = records.iterator(); it.hasNext();) {
 				Lmodel.addElement(it.next());
 			}
 		}
@@ -97,6 +99,13 @@ public class DetailAction {
 	 */
 	public static ArrayList<Object> getNextReviewInfo(ArrayList<Record> R) {
 		// TODO
+		if(R.size()==0) {
+			//说明没有单词
+			ArrayList<Object> L = new ArrayList<Object>();
+			L.add(0, "未定义");// 复习时间
+			L.add(1, 0);// 复习条数
+			return L;
+		}
 		R.sort(new sortRule());
 		SimpleDateFormat Fmt = new SimpleDateFormat("yyyy/MM/dd");
 		ArrayList<Object> L = new ArrayList<Object>();
