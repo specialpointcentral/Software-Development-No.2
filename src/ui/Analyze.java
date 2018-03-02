@@ -47,19 +47,19 @@ public class Analyze extends JPanel {
 		});
 
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(268, 13, 357, 524);
+		scrollPane_1.setBounds(268, 13, 682, 524);
 		panel.add(scrollPane_1);
 
 		table_all = new JTable();
 		table_all.setRowHeight(25);
-		table_all.setModel(new DefaultTableModel(new Object[][] {},
-				new String[] { "\u6761\u76EE", "\u8BB0\u5FC6\u6B21\u6570", "\u6A21\u7CCA\u6B21\u6570" }));
+		table_all.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"\u6761\u76EE", "\u63D0\u793A", "\u8BB0\u5FC6\u6B21\u6570", "\u6A21\u7CCA\u6B21\u6570", "\u4E0D\u77E5\u9053\u6B21\u6570", "\u8BB0\u5FC6\u8F6E\u6570", "\u4E0B\u6B21\u590D\u4E60"
+			}
+		));
 		scrollPane_1.setViewportView(table_all);
-
-		JTextArea text_detail = new JTextArea();
-		text_detail.setEditable(false);
-		text_detail.setBounds(639, 13, 297, 524);
-		panel.add(text_detail);
 		DetailAction.showCardList(list_card);
 
 	}

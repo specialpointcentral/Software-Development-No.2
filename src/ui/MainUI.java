@@ -3,6 +3,7 @@ package ui;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
+import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -20,6 +21,18 @@ import java.awt.event.WindowListener;
 
 public class MainUI extends JFrame {
 	public MainUI() {
+		
+//	    try {  
+//	        //…Ë÷√—˘ Ω  
+//	    	String lookAndFeel = UIManager.getSystemLookAndFeelClassName();
+//	        UIManager.setLookAndFeel(lookAndFeel);  
+//	      
+//	    } catch (Throwable e) {  
+//	      
+//	        e.printStackTrace();  
+//	      
+//	    }  
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		setTitle("\u8BB0\u5FC6\u5361\u7247");

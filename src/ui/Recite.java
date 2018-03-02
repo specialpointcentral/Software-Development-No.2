@@ -44,6 +44,7 @@ public class Recite extends JFrame {
 	private JButton btn_donnotKnow;
 	private JButton btn_maybe;
 	private JFrame thisFrame;// 当前窗口
+	private boolean actEnter=false;//input相应回车
 
 	private ReciteData data;// 当前记忆的数据
 
@@ -58,7 +59,7 @@ public class Recite extends JFrame {
 		text_info.setBackground(SystemColor.control);
 		text_info.setEditable(false);
 		text_info.setText(
-				"\u8FD9\u91CC\u662F\u63D0\u793A\u5185\u5BB9\u8FD9\u91CC\u662F\u63D0\u793A\u5185\u5BB9\u8FD9\u91CC\u662F\u63D0\u793A\u5185\u5BB9\u8FD9\u91CC\u662F\u63D0\u793A\u5185\u5BB9\u8FD9\u91CC\u662F\u63D0\u793A\u5185\u5BB9\u8FD9\u91CC\u662F\u63D0\u793A\u5185\u5BB9\u8FD9\u91CC\u662F\u63D0\u793A\u5185\u5BB9\u8FD9\u91CC\u662F\u63D0\u793A\u5185\u5BB9\u8FD9\u91CC\u662F\u63D0\u793A\u5185\u5BB9\u8FD9\u91CC\u662F\u63D0\u793A\u5185\u5BB9\u8FD9\u91CC\u662F\u63D0\u793A\u5185\u5BB9\u8FD9\u91CC\u662F\u63D0\u793A\u5185\u5BB9\u8FD9\u91CC\u662F\u63D0\u793A\u5185\u5BB9\u8FD9\u91CC\u662F\u63D0\u793A\u5185\u5BB9\u8FD9\u91CC\u662F\u63D0\u793A\u5185\u5BB9");
+				"\u8FD9\u91CC\u662F\u63D0\u793A\u5185\u5BB9");
 		text_info.setFont(new Font("微软雅黑", Font.PLAIN, 56));
 		text_info.setBounds(14, 46, 1104, 166);
 		// text_info.setLineWrap(true);
@@ -89,9 +90,10 @@ public class Recite extends JFrame {
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ENTER && data.needAsw) {
+				if (actEnter && e.getKeyCode() == KeyEvent.VK_ENTER && data.needAsw) {
 					// 按下回车，并且需要回答问题，才进行相应
 					e.consume();// 不执行enter
+					actEnter=false;//锁定enter
 					if (data.rightAsw.trim().equals(text_input.getText().trim())) {
 						// 回答正确
 						actionClass.act_know(data.record);
@@ -105,7 +107,7 @@ public class Recite extends JFrame {
 						new _setUI(1000);
 					} else {
 						// 回答错误
-						actionClass.act_donotKnow(data.record);
+						actionClass.act_maybe(data.record);
 
 						label_info.setText("正确答案应该是：");
 						text_input.setText(data.rightAsw);
@@ -239,6 +241,7 @@ public class Recite extends JFrame {
 			text_input.setText("");// 清空文本域，准备回答问题或者给予答案
 			if (data.needAsw) {
 				// 要回答问题
+				actEnter=true;//启动enter
 				btn_know.setVisible(false);// 知道按钮隐藏
 				label_info.setText("请在下面写出答案：");
 				text_input.setEditable(true);// 输入框可编辑
