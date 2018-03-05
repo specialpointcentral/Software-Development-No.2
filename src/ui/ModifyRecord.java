@@ -70,12 +70,18 @@ public class ModifyRecord extends JDialog {
 		getContentPane().add(btn_confirm);
 
 		text_content = new JTextArea();
+		text_content.setLineWrap(true);
+		text_content.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 13));
 		text_content.setBounds(100, 13, 334, 73);
 		getContentPane().add(text_content);
+		text_content.setBorder(new LineBorder(Color.LIGHT_GRAY));
 
 		text_note = new JTextArea();
+		text_note.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 13));
+		text_note.setLineWrap(true);
 		text_note.setBounds(100, 95, 334, 73);
 		getContentPane().add(text_note);
+		text_note.setBorder(new LineBorder(Color.LIGHT_GRAY));
 
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(new LineBorder(new Color(200, 200, 200)), " \u6CE8\u610F\u4E8B\u9879 ",

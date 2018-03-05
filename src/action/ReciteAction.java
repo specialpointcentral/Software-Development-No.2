@@ -6,7 +6,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
+import java.util.Random;
 
 import classes.*;
 
@@ -30,7 +32,6 @@ public class ReciteAction {
 		firstRecite = new LinkedList<Record>();
 		review = new LinkedList<Record>();
 		remanent = new LinkedList<Record>();
-		// TODO
 		setQueue();// 队列初始化
 
 	}
@@ -48,8 +49,11 @@ public class ReciteAction {
 			data.firstRecite = false;
 			data.needAsw = (C.type == 1 || C.type == 2) ? true : false;
 			data.record = temp;
-			data.rightAsw = getQuestion(temp);
-			data.testNote = getNote(temp);
+//			data.rightAsw = getQuestion(temp);
+//			data.testNote = getNote(temp);
+			List<String> L=getAswList(temp);
+			data.rightAsw = L.get(0);
+			data.testNote = L.get(1);
 
 			return data;
 		}
@@ -72,8 +76,11 @@ public class ReciteAction {
 			data.firstRecite = false;
 			data.needAsw = (C.type == 1 || C.type == 2) ? true : false;
 			data.record = temp;
-			data.rightAsw = getQuestion(temp);
-			data.testNote = getNote(temp);
+//			data.rightAsw = getQuestion(temp);
+//			data.testNote = getNote(temp);
+			List<String> L=getAswList(temp);
+			data.rightAsw = L.get(0);
+			data.testNote = L.get(1);
 
 			return data;
 		}
@@ -191,40 +198,68 @@ public class ReciteAction {
 		else
 			return false;
 	}
-
-	/**
-	 * 
-	 * @param R
-	 *            Record
-	 * @return the question answer
-	 */
-	public String getQuestion(Record R) {
+	
+	public List<String> getAswList(Record R){
+		List<String> L=new ArrayList<String>();
+		/**
+		 * L List
+		 * 0 - getQuestion 回答内容, 1 - getNote 提示内容的补充（用于语句）
+		 */
 		if (C.type == 1) {
 			// 单词类
-			return R.getRemenber();
-		} else if (C.type == 2) {
+			L.add(0, R.getRemenber());
+			L.add(1, null);
+		}else if (C.type == 2){
 			// 语句类
-			// TODO
-			return null;
-		} else
-			return null;
-
+			String s=getRecite(R.remember);
+			System.out.println(s);
+			String note=R.remember;
+			L.add(0, s);
+			//[^a-zA-Z]a[^a-zA-Z]
+			//TODO
+			L.add(1, note.replaceFirst("\\b"+s+"\\b", "______"));
+		}else {
+			L.add(null);
+			L.add(null);
+		}
+		return L;
 	}
 
-	/**
-	 * 
-	 * @param R
-	 *            Record
-	 * @return the question note, only for sentence, other return null
-	 */
-	public String getNote(Record R) {
-		if (C.type == 2) {
-			// 语句类
-			// TODO
-			return null;
-		} else
-			return null;
-	}
+//	/**
+//	 * 
+//	 * @param R
+//	 *            Record
+//	 * @return the question answer
+//	 */
+//	public String getQuestion(Record R) {
+//		if (C.type == 1) {
+//			// 单词类
+//			return R.getRemenber();
+//		} else if (C.type == 2) {
+//			// 语句类
+//			// TODO
+//			
+//			return null;
+//		} else
+//			return null;
+//
+//	}
+//
+//	/**
+//	 * 
+//	 * @param R
+//	 *            Record
+//	 * @return the question note, only for sentence, other return null
+//	 */
+//	public String getNote(Record R) {
+//		if (C.type == 2) {
+//			// 语句类
+//			// TODO
+//			
+//			return null;
+//		} else
+//			return null;
+//	}
 
 	/**
 	 * use to set time, let the date add day
@@ -301,6 +336,24 @@ public class ReciteAction {
 	 */
 	public static int getKey(Record R) {
 		return R.forgetTimes + R.donotKnowTimes;
+	}
+
+	public static String getRecite(String S) {
+		String[] arr = S.replaceAll("[^a-zA-Z0-9]", "$0 ").split(" ");//先把标点等前面加上空格，然后拆成数组
+		// 首先先判断单词最大长度
+		int len = 0;
+		for (int i = 0; i < arr.length; i++) {
+			len = (arr[i].trim().length() > len) ? arr.length : len;
+		}
+		int get = 0;
+		Random ran = new Random(System.nanoTime());// 准备随机抽取
+		while (true) {
+			get = Math.abs(ran.nextInt()) % arr.length;// 取出随机数
+			if(arr[get].contains("'")) continue;//避免取出'
+			if (len < 5 || arr[get].trim().length() > len - 4)
+				break;// 取出随机数
+		}
+		return arr[get].trim().replaceAll("[\\pP]", "");// 去除空格以及标点
 	}
 
 }

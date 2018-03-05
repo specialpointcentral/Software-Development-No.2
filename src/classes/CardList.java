@@ -93,12 +93,29 @@ public class CardList {
 			return true;
 		}
 	}
+	/**
+	 * delete the card then delete the file
+	 * @param C Card
+	 * @return true - success, false - do not success
+	 */
+	public boolean deleteCard(Card C) {
+		//取出位置
+		int position=Clist.indexOf(C);
+		//清空文件
+		if(flist.get(position).exists()&&flist.get(position).delete()) {//文件存在且删除正确
+			//删除数据
+			Clist.remove(position);
+		//退出序列
+			flist.remove(position);
+			return true;
+		}else return false;
+
+	}
 
 	/**
 	 * use to save all cards
 	 */
 	public void saveCard() {
-		// TODO
 		for(int i=0;i<Clist.size();i++) {
 			IOAction.writeCardFile(flist.get(i), Clist.get(i));
 		}

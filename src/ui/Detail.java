@@ -102,6 +102,7 @@ public class Detail extends JPanel {
 		txt_info.setText(
 				"\u6B64\u5361\u7247\u7684\u8BE6\u7EC6\u6570\u636E\uFF1A\r\n\u603B\u8BCD\u6761\u6570\uFF1A\r\n\u5361\u7247\u7C7B\u578B\uFF1A\r\n\u8BED\u8A00\uFF1A\r\n\u662F\u5426\u5F00\u59CB\u5B66\u4E60\uFF1A\r\n\u4E0B\u6B21\u590D\u4E60\u65F6\u95F4\uFF1A\r\n\u4E0B\u6B21\u590D\u4E60\u8BCD\u6761\u6570\uFF1A");
 		txt_info.setBounds(665, 278, 271, 259);
+		txt_info.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		mainPanel.add(txt_info);
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -109,6 +110,7 @@ public class Detail extends JPanel {
 		mainPanel.add(scrollPane);
 
 		list_content = new JList<Record>();
+		list_content.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 15));
 		scrollPane.setViewportView(list_content);
 
 		JScrollPane scrollPane_1 = new JScrollPane();
@@ -116,6 +118,7 @@ public class Detail extends JPanel {
 		mainPanel.add(scrollPane_1);
 
 		list_card = new JList<Card>();
+		list_card.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 15));
 		list_card.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list_card.addListSelectionListener(new ListSelectionListener() {
 

@@ -44,10 +44,10 @@ public class Record implements Serializable  {
 	 */
 	public String toString() {
 		String remembers;
-		if (remember.length() <= 20)
+		if (remember.length() <= 40)
 			remembers = remember;
 		else
-			remembers = remember.substring(0, 19) + "..";
+			remembers = remember.substring(0, 39) + "..";
 		return remembers;
 	}
 }

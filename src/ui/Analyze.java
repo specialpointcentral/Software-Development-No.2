@@ -15,6 +15,7 @@ import classes.Card;
 import javax.swing.JTextArea;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.awt.Font;
 
 public class Analyze extends JPanel {
 	private JTable table_all;
@@ -33,6 +34,7 @@ public class Analyze extends JPanel {
 		panel.add(scrollPane);
 
 		list_card = new JList<Card>();
+		list_card.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 15));
 		scrollPane.setViewportView(list_card);
 		list_card.addListSelectionListener(new ListSelectionListener() {
 
@@ -51,6 +53,7 @@ public class Analyze extends JPanel {
 		panel.add(scrollPane_1);
 
 		table_all = new JTable();
+		table_all.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 15));
 		table_all.setRowHeight(25);
 		table_all.setModel(new DefaultTableModel(
 			new Object[][] {

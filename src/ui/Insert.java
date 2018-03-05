@@ -1,13 +1,17 @@
 package ui;
 
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+
 import java.awt.BorderLayout;
 
 import javax.swing.JList;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JButton;
 
 import java.awt.Font;
+import java.awt.Point;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -36,9 +40,6 @@ import javax.swing.JLabel;
 import java.awt.Color;
 
 public class Insert extends JPanel {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JTable table_content;
 	private JList<Card> list_card;
@@ -86,18 +87,52 @@ public class Insert extends JPanel {
 		mainPanel.add(scrollPane);
 
 		list_card = new JList<Card>();
+		list_card.setFont(new Font("微软雅黑", Font.PLAIN, 15));
 		scrollPane.setViewportView(list_card);
+		// 弹出菜单
+		JPopupMenu jPopupMenu = new JPopupMenu("选项");
+		JMenuItem modify = new JMenuItem("修改");
+		JMenuItem delete = new JMenuItem("删除");
+		jPopupMenu.add(modify);
+		jPopupMenu.add(delete);
+		modify.addActionListener(new ActionListener() {
+			// 修改选择
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ModifyCard fr = new ModifyCard(thisPanel, Main.f);
+				fr.setValue(list_card.getSelectedValue());
+				fr.setVisible(true);
+			}
+		});
+		delete.addActionListener(new ActionListener() {
+			// 删除选择
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (JOptionPane.showConfirmDialog(thisPanel, "是否删除这个词条，随同的文件同样也会被删除且不能恢复？", "警告", JOptionPane.WARNING_MESSAGE,
+						JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+					if (Main.Clist.deleteCard(list_card.getSelectedValue()))
+						refreshUI();
+					else System.err.println("出错");
+				}
+			}
+		});
+
 		list_card.addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (list_card.getSelectedValue() != null) {
 					// 有选中
-					if (e.getClickCount() == 2) {
-						// 双击
+					if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2) {
+						// 左键双击
 						ModifyCard fr = new ModifyCard(thisPanel, Main.f);
 						fr.setValue(list_card.getSelectedValue());
 						fr.setVisible(true);
+					} else if (e.getButton() == MouseEvent.BUTTON3) {
+						// 右键
+						Point p = e.getPoint();
+						jPopupMenu.show(e.getComponent(), p.x, p.y);
+
 					}
 				}
 			}
@@ -117,9 +152,10 @@ public class Insert extends JPanel {
 		mainPanel.add(scrollPane_1);
 
 		table_content = new JTable();
+		table_content.setFont(new Font("微软雅黑", Font.PLAIN, 15));
 		table_content.setRowHeight(25);
 		table_content.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table_content.setModel(new DefaultTableModel(new Object[][] { { null, null }, },
+		table_content.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "\u8BB0\u5FC6\u5185\u5BB9", "\u63D0\u793A\u5185\u5BB9" }) {
 			private static final long serialVersionUID = 1L;
 
@@ -127,11 +163,19 @@ public class Insert extends JPanel {
 				return false;
 			}
 		});
+		table_content.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				InsertAction.setBeforeText((String) table_content.getValueAt(table_content.getSelectedRow(), table_content.getSelectedColumn()));
+			}
+		});
 
 		scrollPane_1.setViewportView(table_content);
 		new InsertBeginUI(list_card);
-		
-		JLabel lblNewLabel = new JLabel("\u53EF\u4EE5\u901A\u8FC7\u53CC\u51FB\u76F8\u5E94\u7684\u5185\u5BB9\u66F4\u6539\u5361\u7247\u4FE1\u606F");
+
+		JLabel lblNewLabel = new JLabel(
+				"\u53EF\u4EE5\u901A\u8FC7\u53CC\u51FB\u76F8\u5E94\u7684\u5185\u5BB9\u66F4\u6539\u5361\u7247\u4FE1\u606F");
 		lblNewLabel.setForeground(Color.GRAY);
 		lblNewLabel.setFont(new Font("微软雅黑", Font.PLAIN, 15));
 		lblNewLabel.setBounds(14, 503, 263, 18);
@@ -142,9 +186,9 @@ public class Insert extends JPanel {
 	 * use to refresh UI
 	 */
 	public void refreshUI() {
+		list_card.clearSelection();
 		list_card.updateUI();
 		table_content.updateUI();
-		list_card.clearSelection();
 		DetailAction.showCardList(list_card);
 	}
 }

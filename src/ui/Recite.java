@@ -94,7 +94,7 @@ public class Recite extends JFrame {
 					// 按下回车，并且需要回答问题，才进行相应
 					e.consume();// 不执行enter
 					actEnter=false;//锁定enter
-					if (data.rightAsw.trim().equals(text_input.getText().trim())) {
+					if (data.rightAsw.trim().equalsIgnoreCase(text_input.getText().trim())) {
 						// 回答正确
 						actionClass.act_know(data.record);
 						text_input.setForeground(Color.GREEN);
@@ -210,7 +210,6 @@ public class Recite extends JFrame {
 	}
 
 	private void _setUI() {
-		// TODO
 		data = actionClass.getReciteData();
 		// 恢复按钮和输入框状态
 		text_input.setForeground(Color.black);
@@ -245,6 +244,11 @@ public class Recite extends JFrame {
 				btn_know.setVisible(false);// 知道按钮隐藏
 				label_info.setText("请在下面写出答案：");
 				text_input.setEditable(true);// 输入框可编辑
+				//如果是语句
+				if(data.testNote!=null) {
+					text_info.setText(text_info.getText()+"\n"+data.testNote);
+				}
+				//TODO
 			} else {
 				// 不用回答，自测
 				btn_know.setVisible(true);
