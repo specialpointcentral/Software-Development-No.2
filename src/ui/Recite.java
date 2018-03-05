@@ -1,39 +1,24 @@
 package ui;
 
 import javax.swing.JFrame;
-import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 
 import java.awt.Font;
 import java.awt.SystemColor;
-import java.awt.Toolkit;
 
 import javax.swing.border.MatteBorder;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
 
 import action.ReciteAction;
 import classes.Card;
 import classes.ReciteData;
 
 import java.awt.Color;
-import java.awt.Dimension;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.ActionEvent;
+import java.awt.event.*;
 
 public class Recite extends JFrame {
 	private JTextPane text_input;
@@ -104,7 +89,7 @@ public class Recite extends JFrame {
 						btn_donnotKnow.setEnabled(false);
 						btn_maybe.setEnabled(false);
 
-						new _setUI(1000);
+						new _setUIClass(1000);
 					} else {
 						// 回答错误
 						actionClass.act_maybe(data.record);
@@ -117,7 +102,7 @@ public class Recite extends JFrame {
 						btn_donnotKnow.setEnabled(false);
 						btn_maybe.setEnabled(false);
 
-						new _setUI(3000);
+						new _setUIClass(3000);
 					}
 				}
 			}
@@ -130,9 +115,11 @@ public class Recite extends JFrame {
 				actionClass.act_maybe(data.record);
 				if (data.needAsw) {
 					label_info.setText("正确答案应该是：");
+					//TODO 文字大小
 					text_input.setText(data.rightAsw);
 				} else {
 					label_info.setText("记忆内容如下：");
+					//TODO 文字大小
 					text_input.setText(data.record.remember);
 				}
 				text_input.setEditable(false);// 输入框不可编辑
@@ -141,7 +128,7 @@ public class Recite extends JFrame {
 				btn_donnotKnow.setEnabled(false);
 				btn_maybe.setEnabled(false);
 
-				new _setUI(3000);
+				new _setUIClass(3000);
 			}
 		});
 		btn_maybe.setFont(new Font("微软雅黑", Font.PLAIN, 45));
@@ -155,9 +142,11 @@ public class Recite extends JFrame {
 
 				if (data.needAsw) {
 					label_info.setText("正确答案应该是：");
+					//TODO 文字大小
 					text_input.setText(data.rightAsw);
 				} else {
 					label_info.setText("记忆内容如下：");
+					//TODO 文字大小
 					text_input.setText(data.record.remember);
 				}
 				// 禁用按钮
@@ -166,7 +155,7 @@ public class Recite extends JFrame {
 				btn_donnotKnow.setEnabled(false);
 				btn_maybe.setEnabled(false);
 
-				new _setUI(3000);
+				new _setUIClass(3000);
 			}
 		});
 		btn_donnotKnow.setFont(new Font("微软雅黑", Font.PLAIN, 45));
@@ -220,7 +209,7 @@ public class Recite extends JFrame {
 
 		if (data == null) {
 			// 完成学习
-			// TODO
+			// TODO 加入恭喜界面
 			JOptionPane.showMessageDialog(null, "复习完成");
 			dispose();
 			return;
@@ -231,11 +220,13 @@ public class Recite extends JFrame {
 			text_input.setVisible(true);
 			text_input.setText(data.record.remember);
 			label_info.setText("以下是记忆内容：");
+			//TODO 文字大小
 			text_input.setEditable(false);// 输入框不可编辑
 
 		} else {
 			// 复习记忆
 			text_info.setText(data.record.note);
+			//TODO 文字大小
 			text_input.setVisible(true);
 			text_input.setText("");// 清空文本域，准备回答问题或者给予答案
 			if (data.needAsw) {
@@ -245,25 +236,31 @@ public class Recite extends JFrame {
 				label_info.setText("请在下面写出答案：");
 				text_input.setEditable(true);// 输入框可编辑
 				//如果是语句
-				if(data.testNote!=null) {
+				if(data.testNote!=null) {//需要提示数据
+					//TODO 文字大小
 					text_info.setText(text_info.getText()+"\n"+data.testNote);
 				}
-				//TODO
 			} else {
 				// 不用回答，自测
 				btn_know.setVisible(true);
 				label_info.setText("点击下面出现答案：");
+				//TODO 文字大小
 				text_input.setEditable(false);// 输入框不可编辑
 			}
-
 		}
 
 	}
+	
+	private void setTextsize(JTextPane Jp,String showText) {
+		//TODO
+		
+		
+	}
 
-	class _setUI extends Thread {
+	class _setUIClass extends Thread {
 		private int time;// wait time
 
-		public _setUI(int time) {
+		public _setUIClass(int time) {
 			this.time = time;
 			this.start();
 		}
@@ -273,7 +270,6 @@ public class Recite extends JFrame {
 				sleep(time);
 				_setUI();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 

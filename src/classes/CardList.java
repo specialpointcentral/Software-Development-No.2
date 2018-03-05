@@ -1,6 +1,7 @@
 package classes;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -85,7 +86,8 @@ public class CardList {
 	 * @return true -- create success, false -- create do not success
 	 */
 	public boolean addCard(Card C) {
-		File f=IOAction.writeNewCardFile(new File(path+C.card+".crd"), C);
+		SimpleDateFormat Fmt = new SimpleDateFormat("yyyyMMddHHmmss");
+		File f=IOAction.writeNewCardFile(new File(path+Fmt.format(new Date())+C.card+".crd"), C);
 		if(f==null) return false;
 		else {
 			Clist.add(C);

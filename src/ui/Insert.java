@@ -175,10 +175,10 @@ public class Insert extends JPanel {
 		new InsertBeginUI(list_card);
 
 		JLabel lblNewLabel = new JLabel(
-				"\u53EF\u4EE5\u901A\u8FC7\u53CC\u51FB\u76F8\u5E94\u7684\u5185\u5BB9\u66F4\u6539\u5361\u7247\u4FE1\u606F");
+				"\u901A\u8FC7\u53CC\u51FB\u6216\u53F3\u51FB\u76F8\u5E94\u7684\u5185\u5BB9\u66F4\u6539\u5361\u7247\u4FE1\u606F");
 		lblNewLabel.setForeground(Color.GRAY);
 		lblNewLabel.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 15));
-		lblNewLabel.setBounds(14, 503, 263, 18);
+		lblNewLabel.setBounds(14, 503, 273, 18);
 		mainPanel.add(lblNewLabel);
 	}
 
