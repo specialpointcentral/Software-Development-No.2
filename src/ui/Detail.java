@@ -27,6 +27,7 @@ public class Detail extends JPanel {
 	private JLabel label_study;
 	private JList<Record> list_content;
 	private JTextArea txt_info;
+	private JButton btn_test;
 
 	public Detail() {
 		setSize(950, 550);
@@ -86,10 +87,10 @@ public class Detail extends JPanel {
 				if (C == null)
 					JOptionPane.showMessageDialog(null, "未选中记忆卡片！", "提示", JOptionPane.INFORMATION_MESSAGE);
 				else {
-					refreshUI();//设置未选中列表状态
-					DetailAction.act_review(C);//启动复习
+					refreshUI();// 设置未选中列表状态
+					DetailAction.act_review(C);// 启动复习
 				}
-					
+
 			}
 		});
 		btn_review.setFont(new Font("微软雅黑", Font.PLAIN, 15));
@@ -127,30 +128,37 @@ public class Detail extends JPanel {
 				if (!e.getValueIsAdjusting() && list_card.getSelectedValue() != null) {// 确保不是空值并且值已经改变，减少读取次数
 					DetailAction.showRecord(list_content, list_card.getSelectedValue());
 					txt_info.setText(DetailAction.getDetailInfo(list_card.getSelectedValue()));
-					//先判断卡片内容是否为空
-					if(list_card.getSelectedValue().records.size()==0) {
-						//空，按钮发生相应变化
+					// 先判断卡片内容是否为空
+					if (list_card.getSelectedValue().records.size() == 0) {
+						// 空，按钮发生相应变化
 						label_study.setText("此卡片还没有任何记忆内容");
 						btn_study.setText("现在开始学习");
 						btn_study.setEnabled(false);
-					}else
+						btn_test.setEnabled(false);
+					} else
 					// 开始学习了吗？
 					if (list_card.getSelectedValue().getStartorNot() && !list_card.getSelectedValue().getAllisOver()) {
 						// 开始，并且没有学完
 						label_study.setText("将此卡片内容重置");
 						btn_study.setText("重置此卡片");
 						btn_study.setEnabled(true);
+						btn_test.setEnabled(false);
+						btn_test.setToolTipText("未学习完，还不能测试！");
 					} else if (list_card.getSelectedValue().getStartorNot()
 							&& list_card.getSelectedValue().getAllisOver()) {
 						// 学完了
 						label_study.setText("此卡片已完成学习，你可以：");
 						btn_study.setText("重置此卡片");
 						btn_study.setEnabled(true);
+						btn_test.setEnabled(true);
+						btn_test.setToolTipText("进行测试");
 					} else {
 						// 未开始
 						label_study.setText("此卡片现在还未开始学习");
 						btn_study.setText("现在开始学习");
 						btn_study.setEnabled(true);
+						btn_test.setEnabled(false);
+						btn_test.setToolTipText("未开始学习，还不能测试！");
 					}
 					// 是否有复习
 					ArrayList<Object> list = DetailAction
@@ -183,10 +191,32 @@ public class Detail extends JPanel {
 			}
 		});
 		scrollPane_1.setViewportView(list_card);
+		btn_test = new JButton("\u6D4B\u8BD5");
 		// 初开页面进行初始化
 		label_study.setText("现在还未开始学习");
 		btn_review.setEnabled(false);
 		btn_study.setEnabled(false);
+
+		btn_test.setEnabled(false);
+		btn_test.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Card C = list_card.getSelectedValue();
+				if (C == null) {
+					JOptionPane.showMessageDialog(null, "未选中记忆卡片！", "提示", JOptionPane.INFORMATION_MESSAGE);
+				} else if (C.getStartorNot() && C.getAllisOver()) {
+					// 已开始学习，允许测试
+					DetailAction.act_test(C);
+
+				} else {
+					// 未开始学习，不准测试
+					System.out.println(C.getAllisOver());
+					JOptionPane.showMessageDialog(null, "您还未学习，请先学习后在进行测试！", "提示", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		});
+		btn_test.setFont(new Font("微软雅黑", Font.PLAIN, 15));
+		btn_test.setBounds(14, 78, 85, 38);
+		panel.add(btn_test);
 		new DetailBeginUI(list_card, txt_info);
 	}
 

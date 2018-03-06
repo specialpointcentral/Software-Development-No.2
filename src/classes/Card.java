@@ -84,7 +84,7 @@ public class Card implements Serializable {
 		// 判断下次复习时间有无null
 		for (Iterator<Record> it = records.iterator(); it.hasNext();) {
 			Record R = it.next();
-			if (R != null && (!R.isReciteOver || R.nextTime != null)) {
+			if (R != null && (!R.isReciteOver && R.nextTime == null)) {
 				overAll = false;
 				break;
 			}

@@ -11,6 +11,7 @@ import javax.swing.JList;
 import classes.Card;
 import classes.Record;
 import main.Main;
+import ui.CardTest;
 import ui.Recite;
 
 /**
@@ -177,6 +178,19 @@ public class DetailAction {
 	public static void act_review(Card C) {
 		// TODO
 		Recite fr=new Recite(C);
+		fr.setVisible(true);
+		fr.setLocationRelativeTo(null);
+
+	}
+	/**
+	 * use to start the test
+	 * 
+	 * @param C
+	 *            Card
+	 */
+	public static void act_test(Card C) {
+		// TODO
+		CardTest fr=new CardTest(C);
 		fr.setVisible(true);
 		fr.setLocationRelativeTo(null);
 

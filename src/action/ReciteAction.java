@@ -49,8 +49,6 @@ public class ReciteAction {
 			data.firstRecite = false;
 			data.needAsw = (C.type == 1 || C.type == 2) ? true : false;
 			data.record = temp;
-//			data.rightAsw = getQuestion(temp);
-//			data.testNote = getNote(temp);
 			List<String> L=getAswList(temp);
 			data.rightAsw = L.get(0);
 			data.testNote = L.get(1);
@@ -76,8 +74,6 @@ public class ReciteAction {
 			data.firstRecite = false;
 			data.needAsw = (C.type == 1 || C.type == 2) ? true : false;
 			data.record = temp;
-//			data.rightAsw = getQuestion(temp);
-//			data.testNote = getNote(temp);
 			List<String> L=getAswList(temp);
 			data.rightAsw = L.get(0);
 			data.testNote = L.get(1);
@@ -216,7 +212,6 @@ public class ReciteAction {
 			String note=R.remember;
 			L.add(0, s);
 			//[^a-zA-Z]a[^a-zA-Z]
-			//TODO
 			L.add(1, note.replaceFirst("\\b"+s+"\\b", "______"));
 		}else {
 			L.add(null);
@@ -224,42 +219,6 @@ public class ReciteAction {
 		}
 		return L;
 	}
-
-//	/**
-//	 * 
-//	 * @param R
-//	 *            Record
-//	 * @return the question answer
-//	 */
-//	public String getQuestion(Record R) {
-//		if (C.type == 1) {
-//			// 单词类
-//			return R.getRemenber();
-//		} else if (C.type == 2) {
-//			// 语句类
-//			// TODO
-//			
-//			return null;
-//		} else
-//			return null;
-//
-//	}
-//
-//	/**
-//	 * 
-//	 * @param R
-//	 *            Record
-//	 * @return the question note, only for sentence, other return null
-//	 */
-//	public String getNote(Record R) {
-//		if (C.type == 2) {
-//			// 语句类
-//			// TODO
-//			
-//			return null;
-//		} else
-//			return null;
-//	}
 
 	/**
 	 * use to set time, let the date add day
