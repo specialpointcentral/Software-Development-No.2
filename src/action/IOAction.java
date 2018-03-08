@@ -105,9 +105,9 @@ public class IOAction {
 	/**
 	 * write the file
 	 * 
-	 * @param f
-	 * @param C
-	 * @return
+	 * @param f File
+	 * @param C Card
+	 * @return true - save success false - do not success 
 	 */
 	public static boolean writeCardFile(File f, Card C) {
 		try {

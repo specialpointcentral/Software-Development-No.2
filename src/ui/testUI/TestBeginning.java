@@ -1,8 +1,6 @@
 package ui.testUI;
 
-import java.awt.Container;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 

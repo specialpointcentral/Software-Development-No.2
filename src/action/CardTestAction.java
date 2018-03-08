@@ -47,7 +47,6 @@ public class CardTestAction {
 			data.firstRecite = false;
 			data.needAsw = (C.type == 1 || C.type == 2) ? true : false;
 			data.record = temp;
-			// TODO
 			List<String> L = getAswList(temp);
 			data.rightAsw = L.get(0);
 			data.testNote = L.get(1);

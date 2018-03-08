@@ -270,15 +270,15 @@ public class ReciteAction {
 	}
 
 	public static int partition(LinkedList<Record> R, int start, int end) {
-		// 固定的切分方式
+		// 固定的切分方式，让大的在前面
 		int key = getKey(R.get(start));
 		Record temp = R.get(start);
 		while (start < end) {
-			while (getKey(R.get(end)) >= key && end > start) {// 从后半部分向前扫描
+			while (getKey(R.get(end)) <= key && end > start) {// 从后半部分向前扫描
 				end--;
 			}
 			R.set(start, R.get(end));
-			while (getKey(R.get(start)) <= key && end > start) {// 从前半部分向后扫描
+			while (getKey(R.get(start)) >= key && end > start) {// 从前半部分向后扫描
 				start++;
 			}
 			R.set(end, R.get(start));

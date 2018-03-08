@@ -119,17 +119,16 @@ public class CardList {
 	 */
 	public void saveCard() {
 		for(int i=0;i<Clist.size();i++) {
-			IOAction.writeCardFile(flist.get(i), Clist.get(i));
+			IOAction.writeCardFile(flist.get(i), Clist.get(i));// 写入文件，flist是文件路径，Clist是卡片
 		}
-		Thread th=new LastWorks(IOAction.exec);
+		IOAction.exec.shutdown();//关闭线程池
+		Thread th=new LastWorks(IOAction.exec);//创建线程，判断存储是否完成
 		try {
+			th.start();
 			th.join();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-
 	}
 
 	/**

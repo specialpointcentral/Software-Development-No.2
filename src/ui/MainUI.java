@@ -1,14 +1,11 @@
 package ui;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
-import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import action.IOAction;
-import action.LastWorks;
+
 import main.Main;
 
 import javax.swing.JPanel;
@@ -16,7 +13,6 @@ import javax.swing.JPanel;
 import java.awt.Font;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 
 
 public class MainUI extends JFrame {
@@ -74,6 +70,7 @@ public class MainUI extends JFrame {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				//关闭窗口前保存任务
+				Main.f.setVisible(false);
 				Main.Clist.saveCard();
 			}
 			

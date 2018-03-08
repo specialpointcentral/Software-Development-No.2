@@ -1,12 +1,8 @@
 package action;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -15,7 +11,6 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
 import classes.*;
-import main.Main;
 
 /**
  * this part is used to help the Insert UI, all function is in here
@@ -32,20 +27,28 @@ public class InsertAction {
 	 *            JTable
 	 */
 	static String beforeText = null;// 以前的表格内容
+
 	/**
 	 * set the beforeText
+	 * 
 	 * @param S
 	 */
 	public static void setBeforeText(String S) {
-		beforeText=S;
+		beforeText = S;
 		System.out.println(beforeText);
 	}
 
+	/**
+	 * show the table
+	 * @param C Card
+	 * @param T JTable
+	 */
 	public static void showTable(Card C, JTable T) {
 		DefaultTableModel Tmodel = new DefaultTableModel(new Object[][] {},
 				new String[] { "\u8BB0\u5FC6\u5185\u5BB9", "\u63D0\u793A\u5185\u5BB9" });
 		Tmodel.addTableModelListener(new TableModelListener() {
 
+			//用户更改表格数据，系统实时记录
 			@Override
 			public void tableChanged(TableModelEvent e) {
 				int row = e.getFirstRow();
@@ -54,10 +57,9 @@ public class InsertAction {
 					// 首先判断是不是一行都为空
 					if (((String) T.getValueAt(row, 0)).trim().equals("")
 							&& ((String) T.getValueAt(row, 0)).trim().equals("")) {
-						//TODO
 						C.records.remove(R.get(row));
-						Tmodel.removeRow(row);//删除表格一行
-						return ;
+						Tmodel.removeRow(row);// 删除表格一行
+						return;
 					}
 					// 测试---------------------------
 					System.out.println(row + " " + col);
@@ -106,41 +108,6 @@ public class InsertAction {
 			R.add(temp);
 			Tmodel.addRow(new Object[] { temp.remember, temp.note });
 		}
-	}
-
-	/**
-	 * use to open the card modify dialog
-	 * 
-	 * @param Clist
-	 *            JList<Card> update the UI
-	 */
-	public static void act_insertCard(JList<Card> Clist) {
-		// TODO
-
-	}
-
-	/**
-	 * use to open the record modify dialog
-	 * 
-	 * @param Clist
-	 *            JList<Card> update the UI
-	 */
-	public static void act_insertRecord(JList<Card> Clist) {
-		// TODO
-
-	}
-
-	/**
-	 * use to modify the card list
-	 * 
-	 * @param C
-	 *            Card which need modify
-	 * @param Clist
-	 *            JList<Card> update the UI
-	 */
-	public static void act_modify(Card C, JList<Card> Clist) {
-		// TODO
-
 	}
 
 }

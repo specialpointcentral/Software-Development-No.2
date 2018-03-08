@@ -16,7 +16,7 @@ public class LastWorks extends Thread {
 				break;
 			}
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
